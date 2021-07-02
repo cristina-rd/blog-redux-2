@@ -1,25 +1,28 @@
-import logo from './logo.svg';
+import React from 'react';
+import { connect } from 'react-redux';
+import Routes from './routes';
+import store from './store/store';
+
+import Container from '@material-ui/core/Container'
+
 import './App.css';
+import AlertDeletedSuccess from './components/AlertDeletedSuccess';
 
 function App() {
+  let openedAlert = store ? store.getState().openedAlert : null;
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container fixed>
+      <AlertDeletedSuccess show={openedAlert} />
+      <Routes />
+    </Container>
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {...state, openedAlert: state.openedAlert }
+}
+
+const AppContainer = connect(mapStateToProps)(App)
+
+export default AppContainer;
